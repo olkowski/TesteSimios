@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SimionServiceImpl implements SimionService {
 
-	private static final List<String> SIMIAN_DNA =  Arrays.asList("A", "T", "C", "G");
+	private static final List<String> SIMIAN_DNA =  Arrays.asList("AAAA", "TTTT", "CCCC", "GGGG");
 	
 
 	
@@ -37,10 +37,11 @@ public class SimionServiceImpl implements SimionService {
 			for (int y = 0; y < dna.length(); y++) {
 				String coluna = colunas[y] == null ? "" : colunas[y];
 				coluna += dna.toCharArray()[y];
-				if (SIMIAN_DNA.contains(dna)) {
+				
+				colunas[y] = coluna += dna.toCharArray()[y];
+				if (SIMIAN_DNA.contains(coluna)) {
 					return true;
 				}
-				colunas[y] = coluna += dna.toCharArray()[y];
 			}
 
 		}
