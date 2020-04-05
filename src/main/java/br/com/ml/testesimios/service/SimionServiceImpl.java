@@ -1,6 +1,5 @@
 package br.com.ml.testesimios.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,51 +11,64 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SimionServiceImpl implements SimionService {
 
-	private static final List<String> SIMIAN_DNA =  Arrays.asList("AAAA", "TTTT", "CCCC", "GGGG");
-	
+	private static final List<String> SIMIAN_DNA = Arrays.asList("AAAA", "TTTT", "CCCC", "GGGG");
 
-	
-	
 	@Override
 	public boolean isSimian(String[] dnas) throws Exception {
-		System.out.println("oi");
 		if (dnas == null) {
 			throw new Exception("DNA deve deve ser enviado");
 		}
-		validarCubo(dnas);
+		dnas = validarCubo(dnas);
 
-		String[] colunas = new String[dnas[0].length()];
+		int tamanho = dnas[0].length();
+
+		String[] colunas = new String[tamanho];
 
 		for (int i = 0; i < dnas.length; i++) {
 			String dna = dnas[i];
-			if (SIMIAN_DNA.contains(dna)) {
+			if (contains(dna)) {
 				return true;
 			}
 			log.info("linha " + i + ": " + dna);
 
 			for (int y = 0; y < dna.length(); y++) {
+
 				String coluna = colunas[y] == null ? "" : colunas[y];
-				coluna += dna.toCharArray()[y];
-				
 				colunas[y] = coluna += dna.toCharArray()[y];
-				if (SIMIAN_DNA.contains(coluna)) {
+				if (contains(coluna)) {
 					return true;
 				}
+
 			}
 
 		}
-
 
 		return false;
 	}
 
-	private void validarCubo(String[] dnas) throws Exception {
+	private boolean contains(String valor) {
+		for (String simian : SIMIAN_DNA) {
+			if (valor.contains(simian)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private String[] validarCubo(String[] dnas) throws Exception {
+		String[] dnasNew = new String[dnas.length];
+		if (dnas == null || dnas[0].replaceAll("\"", "").length() != dnas.length) {
+			throw new Exception("DNA inválido");
+		}
+
 		for (int i = 0; i < dnas.length; i++) {
-			if (dnas[i].length() != dnas[0].length()) {
+			if (dnas[i].length() != dnas[0].length()) {				
 				throw new Exception("DNA inválido");
 			}
+			dnasNew[i] = dnas[i];
 
 		}
+		return dnasNew;
 	}
 
 }

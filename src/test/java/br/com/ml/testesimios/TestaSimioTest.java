@@ -1,5 +1,6 @@
 package br.com.ml.testesimios;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -10,19 +11,30 @@ public class TestaSimioTest {
 
 
 	@Test
-	public void test() {
-		// [{"key":"dna","value":" [\"ATGCGA\", \"CAGTGC\", \"TTATGT\",
-		// \"AGAAGG\", \"CCCCTA\",
-		// \"TCACTG\"]","description":"","type":"text","enabled":true}]
-		String[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
+	public void testSimio() {
+
+		String[] dna = { "ATGCGA", "CAATGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
 
 		try {
-			new SimionServiceImpl().isSimian(dna);
+			assertEquals(new SimionServiceImpl().isSimian(dna),true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			fail(e.getMessage());
 			e.printStackTrace();
 		}
-		fail("Not yet implemented");
+		
+	}
+	
+	@Test
+	public void testHumano() {
+
+		String[] dna = { "ATGCGA", "CATTGC", "TTATGT", "AGATTG", "CTCCTA", "TCACTG" };
+
+		try {
+			assertEquals(new SimionServiceImpl().isSimian(dna),false);
+		} catch (Exception e) {
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }
