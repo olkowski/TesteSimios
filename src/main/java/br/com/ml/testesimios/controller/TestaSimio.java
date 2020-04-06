@@ -56,22 +56,22 @@ public class TestaSimio {
 
 		JSONObject jsonObject = new JSONObject();
 
-		BigDecimal simios = new BigDecimal(dao.getTotalSimios());
+		Double simios = new Double(dao.getTotalSimios());
 		jsonObject.put("count_mutant_dna", simios);
 
-		BigDecimal humanos = new BigDecimal(dao.getTotalHumanos());
+		Double humanos = new Double(dao.getTotalHumanos());
 		jsonObject.put("count_human_dna", humanos);
 
-		BigDecimal percentual = new BigDecimal(0);
+		Double percentual = new Double(0);
 		if (simios.intValue() != 0 && humanos.intValue() != 0) {
 
-			BigDecimal total = humanos.add(simios);
-			percentual = (simios.multiply(new BigDecimal(100))).divide(total);
+			Double total = humanos+ simios;
+			percentual = (simios*100)/(total);
 		} 
 		if(humanos.intValue() == 0){
-			percentual = new BigDecimal(100);
+			percentual = new Double( 100);
 		}
-		jsonObject.put("ratio", percentual);
+		jsonObject.put("ratio",  String.format("%.2f", percentual));
 
 		return jsonObject.toString();
 	}
